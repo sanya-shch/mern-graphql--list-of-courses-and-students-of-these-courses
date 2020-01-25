@@ -1,0 +1,1 @@
+mern graphql stack - a list of courses and students of these courses
