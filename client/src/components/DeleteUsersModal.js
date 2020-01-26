@@ -1,22 +1,22 @@
 import React, {useContext} from 'react';
 import { useMutation } from '@apollo/react-hooks';
 
-import {deleteCourseMutation} from "../graphql/mutations";
-import {coursesQuery} from "../graphql/queries";
+import {deleteUserMutation} from "../graphql/mutations";
+import {usersQuery} from "../graphql/queries";
 
 import currentContext from "../context/current/currentContext";
 
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const DeleteCoursesModal = () => {
+const DeleteUsersModal = () => {
     const context = useContext(currentContext);
     const { current } = context;
 
-    const [deleteCourse] = useMutation(deleteCourseMutation,
+    const [deleteUser] = useMutation(deleteUserMutation,
         {
             refetchQueries: [
                 {
-                    query: coursesQuery,
+                    query: usersQuery,
                     variables: { name: '' }
                 }
             ]
@@ -24,16 +24,16 @@ const DeleteCoursesModal = () => {
     );
 
     const onClickDeleteHandler = () => {
-        deleteCourse({ variables: {id: current.id} })
-            .then(() => M.toast({ html: `Course ${current.name} deleted` }))
+        deleteUser({ variables: {id: current.id} })
+            .then(() => M.toast({ html: `User ${current.name} deleted` }))
             .catch(() => M.toast({ html: 'Something went wrong' }));
     };
 
     return (
-        <div id='delete-course-modal' className='modal' style={{padding: '2rem'}}>
+        <div id='delete_user_modal' className='modal' style={{padding: '2rem'}}>
             <div className='modal-content'>
 
-                <h3 style={{marginBottom: '2rem'}}>Are you sure you want to delete the course</h3>
+                <h3 style={{marginBottom: '2rem'}}>Are you sure you want to delete the user</h3>
 
             </div>
 
@@ -57,4 +57,4 @@ const DeleteCoursesModal = () => {
     );
 };
 
-export default DeleteCoursesModal;
+export default DeleteUsersModal;

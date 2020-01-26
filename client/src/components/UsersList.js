@@ -1,15 +1,15 @@
 import React, {useContext} from 'react';
 import {useQuery} from "@apollo/react-hooks";
-import {coursesQuery} from "../graphql/queries";
+import {usersQuery} from "../graphql/queries";
 import {Loader} from "./Loader";
 import currentContext from "../context/current/currentContext";
 
-export const CoursesList = ({search}) => {
+export const UsersList = ({search}) => {
     const context = useContext(currentContext);
     const { setCurrent } = context;
 
     const { loading, data } = useQuery(
-        coursesQuery,
+        usersQuery,
         {
             variables: {
                 name: search || ''
@@ -17,23 +17,24 @@ export const CoursesList = ({search}) => {
         }
     );
 
-    const editClickHandler = (course) => {
-        setCurrent(course)
+    const editClickHandler = (user) => {
+        setCurrent(user)
     };
 
-    const deleteClickHandler = (course) => {
-        setCurrent(course)
+    const deleteClickHandler = (user) => {
+        setCurrent(user)
     };
 
     return (
         <div>
-
             <table className="centered">
                 <thead>
                 <tr>
                     <th>№</th>
                     <th>NAME</th>
-                    <th>CODE</th>
+                    <th>EMAIL</th>
+                    <th>STATUS</th>
+                    <th>COURSE</th>
                     <th>actions</th>
                 </tr>
                 </thead>
@@ -41,25 +42,33 @@ export const CoursesList = ({search}) => {
                 {
                     !loading && <tbody>
                         {
-                            data.courses.map((course, index) => {
+                            data.users.map((user, index) => {
                                 return (
-                                    <tr key={course.id}>
+                                    <tr key={user.id}>
                                         <td>{index + 1}</td>
-                                        <td>{course.name}</td>
-                                        <td>{course.code}</td>
+                                        <td>{user.name}</td>
+                                        <td>{user.email}</td>
+                                        <td>
+                                            {
+                                                user.status
+                                                    ? <span className="green-text">Active</span>
+                                                    : <span className="red-text">Inactive</span>
+                                            }
+                                        </td>
+                                        <td>{user.course.name}</td>
                                         <td>
                                             <a
                                                 className="btn-floating btn-small waves-effect waves-light green modal-trigger"
                                                 style={{marginRight: '2rem'}}
-                                                onClick={() => editClickHandler(course)}
-                                                href='#edit-course-modal'
+                                                onClick={() => editClickHandler(user)}
+                                                href='#edit_user_modal'
                                             >
                                                 <i className="material-icons">edit</i>
                                             </a>
                                             <a
                                                 className="btn-floating btn-small waves-effect waves-light red modal-trigger"
-                                                onClick={() => deleteClickHandler(course)}
-                                                href='#delete-course-modal'
+                                                onClick={() => deleteClickHandler(user)}
+                                                href='#delete_user_modal'
                                             >
                                                 <i className="material-icons">delete</i>
                                             </a>
@@ -73,7 +82,7 @@ export const CoursesList = ({search}) => {
             </table>
 
             {
-                loading ? <Loader/> : data.courses.length === 0 && <h4>No courses to show...</h4>
+                loading ? <Loader/> : data.users.length === 0 && <h4>No users to show...</h4>
             }
         </div>
     )

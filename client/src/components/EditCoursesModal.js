@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useMutation } from '@apollo/react-hooks';
 
 import {updatedCourseMutation} from "../graphql/mutations";
 import {coursesQuery} from "../graphql/queries";
 
+import currentContext from "../context/current/currentContext";
+
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const EditCoursesModal = ({ current }) => {
+const EditCoursesModal = () => {
+    const context = useContext(currentContext);
+    const { current } = context;
 
     const [courseName, setCourseName] = useState('');
     const [code, setCode] = useState('');
@@ -23,7 +27,7 @@ const EditCoursesModal = ({ current }) => {
     );
 
     useEffect(() => {
-        if (current) {
+        if (current && current.__typename === "Course") {
             setCourseName(current.name);
             setCode(current.code);
         }
@@ -39,6 +43,16 @@ const EditCoursesModal = ({ current }) => {
         }
     };
 
+
+    const handleChangeName = (e) => {
+        setCourseName(e.target.value)
+    };
+
+
+    const handleChangeCode = (e) => {
+        setCode(e.target.value)
+    };
+
     return (
         <div id='edit-course-modal' className='modal' style={{padding: '2rem'}}>
             <div className='modal-content'>
@@ -50,9 +64,9 @@ const EditCoursesModal = ({ current }) => {
                         <span className="helper-text">Name of course</span>
                         <input
                             type='text'
-                            id='name'
+                            id='input_name'
                             value={courseName}
-                            onChange={e => setCourseName(e.target.value)}
+                            onChange={e => handleChangeName(e)}
                         />
                     </div>
                 </div>
@@ -62,9 +76,9 @@ const EditCoursesModal = ({ current }) => {
                         <span className="helper-text">Code</span>
                         <input
                             type='text'
-                            name='code'
+                            id='input_code'
                             value={code}
-                            onChange={e => setCode(e.target.value)}
+                            onChange={e => handleChangeCode(e)}
                         />
                     </div>
                 </div>

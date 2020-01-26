@@ -3,9 +3,15 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import {NavBar} from "./components/NavBar";
 import {UsersPage} from "./pages/UsersPage";
 import {CoursesPage} from "./pages/CoursesPage";
+import AddCoursesModal from "./components/AddCoursesModal";
+import EditCoursesModal from "./components/EditCoursesModal";
+import DeleteCoursesModal from "./components/DeleteCoursesModal";
+import AddUsersModal from "./components/AddUsersModal";
+import EditUsersModal from "./components/EditUsersModal";
+import DeleteUsersModal from "./components/DeleteUsersModal";
 
-import 'materialize-css';
-import 'materialize-css/dist/css/materialize.min.css';
+import CurrentState from './context/current/CurrentState';
+
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 import ApolloClient from 'apollo-boost';
@@ -22,15 +28,23 @@ const App = () => {
     });
 
     return (
-        <ApolloProvider client={client}>
-            <BrowserRouter>
-                <NavBar/>
-                <Switch>
-                    <Route exact path='/users' component={ UsersPage } />
-                    <Route exact path='/courses' component={ CoursesPage } />
-                </Switch>
-            </BrowserRouter>
-        </ApolloProvider>
+        <CurrentState>
+            <ApolloProvider client={client}>
+                <BrowserRouter>
+                    <NavBar/>
+                    <Switch>
+                        <Route exact path='/users' component={ UsersPage } />
+                        <Route exact path='/courses' component={ CoursesPage } />
+                    </Switch>
+                    <AddCoursesModal/>
+                    <EditCoursesModal/>
+                    <DeleteCoursesModal/>
+                    <AddUsersModal/>
+                    <EditUsersModal/>
+                    <DeleteUsersModal/>
+                </BrowserRouter>
+            </ApolloProvider>
+        </CurrentState>
     )
 };
 

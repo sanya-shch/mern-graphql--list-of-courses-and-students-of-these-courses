@@ -23,18 +23,3 @@ dbConnection.once('open', () => console.log('Connected to DB!'));
 app.listen(PORT, err => {
     err ? console.log(err) : console.log('Server started!');
 });
-
-// (async function start(){
-//     try {
-//         await mongoose.connect("*********************************************", {
-//             useNewUrlParser: true,
-//             useUnifiedTopology: true,
-//             useCreateIndex: true
-//         });
-//
-//         app.listen(PORT, () => console.log('App has been started...'));
-//     } catch (e) {
-//         console.log('Server Error', e.message);
-//         process.exit(1);
-//     }
-// })();

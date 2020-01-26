@@ -13,3 +13,28 @@ export const coursesQuery = gql`
     }
   }
 `;
+
+export const shortCoursesQuery = gql`
+  query shortCoursesQuery($name: String) {
+    courses(name: $name) {
+      id
+      name
+    }
+  }
+`;
+
+
+export const usersQuery = gql`
+  query usersQuery($name: String) {
+    users(name: $name) {
+      id
+      name
+      email
+      status
+      course {
+        name
+        id
+      }
+    }
+  }
+`;

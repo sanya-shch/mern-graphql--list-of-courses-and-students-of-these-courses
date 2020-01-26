@@ -23,3 +23,28 @@ export const updatedCourseMutation = gql`
     }
   }
 `;
+
+
+export const deleteUserMutation = gql`
+  mutation deleteUser($id: ID) {
+    deleteUser(id: $id) {
+      id
+    }
+  }
+`;
+
+export const addUserMutation = gql`
+  mutation addUser($name: String!, $email: String!, $status: Boolean!, $courseId: ID) {
+    addUser(name: $name, email: $email, status: $status, courseId: $courseId) {
+      name
+    }
+  }
+`;
+
+export const updateUserMutation = gql`
+  mutation updateUser($id: ID, $name: String!, $email: String!, $status: Boolean!, $courseId: ID) {
+    updateUser(id: $id, name: $name, email: $email, status: $status, courseId: $courseId) {
+      name
+    }
+  }
+`;
